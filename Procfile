@@ -1,1 +1,1 @@
-web: gunicorn weedcaves.wsgi --log-file -
+web: gunicorn weedcave.wsgi --log-file -
