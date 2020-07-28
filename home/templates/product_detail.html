@@ -1,0 +1,262 @@
+{% extends 'home-base.html' %}
+{% load static %}
+{% block title %}  {{ setting.title}}  {% endblock %}
+{% block keywords %}   {{ setting.keywords}}  {% endblock %}
+
+
+{% block content %}
+		<div class="w3l_banner_nav_right">
+			<div class="w3l_banner_nav_right_banner3">
+				<h3>Best Deals For New Products<span class="blink_me"></span></h3>
+			</div>
+			<div class="agileinfo_single">
+				<h5>{{ product.title }}</h5>
+				<div class="col-md-4 agileinfo_single_left">
+
+
+					<img id="example" src="{{ product.image.url }}" alt=" " class="img-responsive" />
+
+				</div>
+				<div class="col-md-8 agileinfo_single_right">
+					<div class="rating1">
+						<span class="starRating">
+							<input id="rating5" type="radio" name="rating" value="5">
+							<label for="rating5">5</label>
+							<input id="rating4" type="radio" name="rating" value="4">
+							<label for="rating4">4</label>
+							<input id="rating3" type="radio" name="rating" value="3" checked>
+							<label for="rating3">3</label>
+							<input id="rating2" type="radio" name="rating" value="2">
+							<label for="rating2">2</label>
+							<input id="rating1" type="radio" name="rating" value="1">
+							<label for="rating1">1</label>
+						</span>
+					</div>
+					<div class="w3agile_description">
+						<h4>Description :</h4>
+						<p>{{ product.description }}</p>
+					</div>
+					<div class="snipcart-item block">
+						<div class="snipcart-thumb agileinfo_single_right_snipcart">
+							<h4>${{ product.price }}<span></span></h4>
+						</div>
+                            {% if product.variant == 'Size-Color' %}
+
+                        <div class="selectCont" >
+                             <form method="POST" id="post-form">
+                            <div class="inputBadgeCont itemCenter flex spaceBetween" >
+                                <input type="hidden" name="productid" id="productid" value="{{ product.id }}">
+                                <span class="texts text-uppercase">  Weight </span>
+                                <span class="aeroIcon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="7" viewBox="0 0 12 7">
+                                <path fill="#666" fill-rule="evenodd" d="M12 1.126L10.85 0 6 4.747 1.15 0 0 1.126l6 5.873z"/>
+                                </svg>
+                                </span>
+                            </div>
+                            {% csrf_token %}
+                            <div class="dropdownsSelect" name="size" id="size" >
+                                {% for rs in sizes %}
+                                <span class="options" {% if variant.size.id == rs.size.id %} selected {% endif %}  value="{{ rs.size.id }}">{{ rs.size.name }}</span>
+                                {% endfor %}
+                            </div>
+                              </form>
+                        </div>
+
+
+
+<form action="?q=selectvariant" method="post" id="post-color">
+    {% csrf_token %}
+<div class="radio-group" id="appendHere">
+    <input type="hidden" name="size" id="size" value="{{ size.id }}">
+         {% for rs in colors %}
+        <label class="radio">
+        <input type="radio" name="variantid" id="variantid" {% if variant.id == rs.id %} checked {% endif %}  value="{{ rs.id }}" onchange="this.form.submit();">
+            {{ rs.color.name }}
+          </label>
+        {% endfor %}
+
+    </label>
+
+</div>
+</form>
+
+
+
+
+{% elif product.variant == 'Size' %}
+
+   <form action="?q=selectvariant" method="post" id="post-color">
+    {% csrf_token %}
+<div class="radio-group" id="appendHere">
+<b>Weight :</b>
+    <input type="hidden" name="size" id="size" value="{{ size.id }}">
+         {% for rs in sizes %}
+     <label class="radio">
+     <input type="radio" name="variantid" id="variantid" {% if variant.id == rs.id %} checked {% endif %}  value="{{ rs.id }}" onchange="this.form.submit();">
+  {{ rs.size.name }}
+          </label>
+     {% endfor %}
+</div>
+</form>
+
+
+
+
+{% elif product.variant == 'Color' %}
+ <form action="?q=selectvariant" method="post" id="post-color">
+    {% csrf_token %}
+     <li><b>Weight :</b>
+<div class="radio-group" id="appendHere">
+    <input type="hidden" name="size" id="size" value="{{ size.id }}">
+
+         {% for rs in colors %}
+     <label class="radio">
+        <input type="radio" name="variantid" id="variantid" {% if variant.id == rs.id %} checked {% endif %}  value="{{ rs.id }}" onchange="this.form.submit();">
+        {{ rs.size.name }}
+          </label>
+        {% endfor %}
+
+</div>
+   </li>      
+</form>
+
+
+
+{% endif %}
+
+
+
+                  
+						  <li><b>Availability</b>   -  {% if variant.quantity > 1 %} <span>In Stock</span>{% else %}<span>Out of Stock {% endif %}</span> </li>
+                        <li><b>Shipping</b> <span>  -  01 day shipping. <samp></samp></span></li>
+                        <li><b>Quantity</b> <span>  -  <input class="input" name="quantity" type="number" value="1" min="1" max="{{ variant.quantity}}"> <samp></samp></span></li>
+<!--                       <li><b>Weight</b> <span>{{ variant.size }} </span></li>-->
+						<div class="snipcart-details agileinfo_single_right_details">
+                               {% if product.variant != 'None' %}
+							<form action="/order/addtoshopcart/{{ product.id}}" method="post">
+                                  {% csrf_token %}
+								<fieldset>
+                            
+                                    <input type="hidden" name="variantid" id="variantid" value="{{ variant.id }}">
+                                    <input type="hidden" name="size" id="size" value="{{ variant.size }}">
+
+									<input type="hidden" name="cmd" value="_cart" />
+									<input type="hidden" name="add" value="1" />
+									<input type="hidden" name="business" value=" " />
+									<input type="hidden" name="item_name" value="pulao basmati rice" />
+									<input type="hidden" name="amount" value="21.00" />
+									<input type="hidden" name="discount_amount" value="1.00" />
+									<input type="hidden" name="currency_code" value="USD" />
+									<input type="hidden" name="return" value=" " />
+									<input type="hidden" name="cancel_return" value=" " />
+									<input type="submit" name="submit" value="Add to cart" class="button" />
+								</fieldset>
+							</form>
+                            
+                                {% else %}
+                            
+                            
+                            		<form action="/order/addtoshopcart/{{ product.id}}" method="post">
+                                  {% csrf_token %}
+								<fieldset>
+                             
+                                
+                                    <input type=hidden class="input" name="quantity" type="number" value="1" min="1" max="{{ product.amount}}">
+									<input type="hidden" name="cmd" value="_cart" />
+									<input type="hidden" name="add" value="1" />
+									<input type="hidden" name="business" value=" " />
+									<input type="hidden" name="item_name" value="pulao basmati rice" />
+									<input type="hidden" name="amount" value="21.00" />
+									<input type="hidden" name="discount_amount" value="1.00" />
+									<input type="hidden" name="currency_code" value="USD" />
+									<input type="hidden" name="return" value=" " />
+									<input type="hidden" name="cancel_return" value=" " />
+									<input type="submit"  {% if product.amount < 0 %} disabled {% endif %} name="submit" value="Add to cart" class="button" />
+								</fieldset>
+							</form>
+                            
+                            
+{% endif %}
+                            
+                            
+                            
+						</div>
+					</div>
+				</div>
+				<div class="clearfix"> </div>
+			</div>
+		</div>
+		<div class="clearfix"></div>
+	</div>
+<!-- //banner -->
+<!-- brands -->
+	<div class="w3ls_w3l_banner_nav_right_grid w3ls_w3l_banner_nav_right_grid_popular">
+		<div class="container">
+			<h3>Popular Brands</h3>
+
+				<div class="w3ls_w3l_banner_nav_right_grid1">
+					<h6>{{ rs.category }}</h6>
+					{% for rs in products_top1 %}
+					<div class="col-md-3 w3ls_w3l_banner_left">
+						<div class="hover14 column">
+						<div class="agile_top_brand_left_grid w3l_agile_top_brand_left_grid">
+							<div class="agile_top_brand_left_grid_pos">
+								<img src="{% static 'website/images/offer.png' %}" alt=" " class="img-responsive" />
+							</div>
+							<div class="agile_top_brand_left_grid1">
+								<figure>
+									<div class="snipcart-item block">
+										<div class="snipcart-thumb">
+											<a href="product_detail.html"><img src="{{rs.image.url}}" alt=" " class="img-responsive" /></a>
+											<p>{{ rs.title }}</p>
+											<h4>${{ rs.price }} <span>$5.00</span></h4>
+										</div>
+										<div class="snipcart-details">
+											<form action="#" method="post">
+												<fieldset>
+													<input type="hidden" name="cmd" value="_cart" />
+													<input type="hidden" name="add" value="1" />
+													<input type="hidden" name="business" value=" " />
+													<input type="hidden" name="item_name" value="knorr instant soup" />
+													<input type="hidden" name="amount" value="3.00" />
+													<input type="hidden" name="discount_amount" value="1.00" />
+													<input type="hidden" name="currency_code" value="USD" />
+													<input type="hidden" name="return" value=" " />
+													<input type="hidden" name="cancel_return" value=" " />
+													<input type="submit" name="submit" value="Add to cart" class="button" />
+												</fieldset>
+											</form>
+										</div>
+									</div>
+								</figure>
+							</div>
+						</div>
+						</div>
+					</div>
+
+ {% endfor %}
+					<div class="clearfix"> </div>
+				</div>
+
+		</div>
+	</div>
+<!-- //brands -->
+<!-- newsletter -->
+	<div class="newsletter">
+		<div class="container">
+			<div class="w3agile_newsletter_left">
+				<h3>sign up for our newsletter</h3>
+			</div>
+			<div class="w3agile_newsletter_right">
+				<form action="#" method="post">
+					<input type="email" name="Email" value="Email" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Email';}" required="">
+					<input type="submit" value="subscribe now">
+				</form>
+			</div>
+			<div class="clearfix"> </div>
+		</div>
+	</div>
+<!-- //newsletter -->
+
+
+ {% endblock %}

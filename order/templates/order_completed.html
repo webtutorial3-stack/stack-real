@@ -1,0 +1,79 @@
+{% extends 'home-base.html' %}
+{% load static %}
+{% block title %}  {{ setting.title}}  {% endblock %}
+{% block keywords %}   {{ setting.keywords}}  {% endblock %}
+
+
+{% block content %}
+
+		<div class="w3l_banner_nav_right">
+<!-- payment -->
+		<div class="privacy about">
+			<h3>Order <span>Completed</span></h3>
+
+	         <div class="checkout-right">
+				<!--Horizontal Tab-->
+        <div id="parentHorizontalTab">
+<!--            <ul class="resp-tabs-list hor_1">-->
+<!--				<li>Cash on delivery (COD)</li>-->
+<!--                <li>Credit/Debit</li>-->
+<!--                <li>Netbanking</li>-->
+<!--                <li>Paypal Account</li>-->
+<!--            </ul>-->
+            <div class="resp-tabs-container hor_1">
+
+           <div>
+                <h4>your order has been been recieved will email or call and tell you the method of payment</h4>
+                </div>
+                <h4>Dear {{ user.first_name }} {{ user.last_name}}</h4>
+                <h3>Your order is completed</h3>
+                <br>
+                <h4>Order Code : {{ ordercode }}</h4>
+                <h3> Thank You</h3>
+                <hr>
+
+
+            </div>
+
+
+
+
+
+                </div>
+
+            </div>
+        </div>
+
+	<!--Plug-in Initialisation-->
+
+	<!-- // Pay -->
+
+			 </div>
+
+		</div>
+<!-- //payment -->
+		</div>
+		<div class="clearfix"></div>
+	</div>
+<!-- //banner -->
+
+
+<!-- newsletter -->
+	<div class="newsletter">
+		<div class="container">
+			<div class="w3agile_newsletter_left">
+				<h3>sign up for our newsletter</h3>
+			</div>
+			<div class="w3agile_newsletter_right">
+				<form action="#" method="post">
+                       {% csrf_token %}
+					<input type="email" name="Email" value="Email" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Email';}" required="">
+					<input type="submit" value="subscribe now">
+				</form>
+			</div>
+			<div class="clearfix"> </div>
+		</div>
+	</div>
+<!-- //newsletter -->
+
+ {% endblock %}

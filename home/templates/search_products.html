@@ -1,0 +1,86 @@
+{% extends 'home-base.html' %}
+{% load static %}
+{% block title %}  {{ setting.title}}  {% endblock %}
+{% block keywords %}   {{ setting.keywords}}  {% endblock %}
+
+
+{% block content %}
+		<div class="w3l_banner_nav_right">
+			<div class="w3l_banner_nav_right_banner7">
+				<h3>Best Deals For New Products<span class="blink_me"></span></h3>
+			</div>
+			<div class="w3ls_w3l_banner_nav_right_grid w3ls_w3l_banner_nav_right_grid_sub">
+				<h3>Beverages</h3>
+				<div class="w3ls_w3l_banner_nav_right_grid1">
+					<h6>soft drinks</h6>
+
+ {% for rs in products %}
+
+					<div class="col-md-3 w3ls_w3l_banner_left">
+						<div class="hover14 column">
+						<div class="agile_top_brand_left_grid w3l_agile_top_brand_left_grid">
+							<div class="agile_top_brand_left_grid_pos">
+								<img src="{% static 'website/images/offer.png' %}" alt=" " class="img-responsive" />
+							</div>
+							<div class="agile_top_brand_left_grid1">
+								<figure>
+									<div class="snipcart-item block">
+										<div class="snipcart-thumb">
+											<a href="/product/{{ rs.id }}/{{ rs.slug }}"><img title=" " alt=" " src="{{rs.image.url}}" /></a>
+                                            <a href="/product/{{ rs.id }}/{{ rs.slug }}"><p>{{ rs.title }}l</p></a>
+											<h4>${{ rs.price }} <span></span></h4>
+										</div>
+										<div class="snipcart-details top_brand_home_details">
+											<form action="/product/{{ rs.id }}/{{ rs.slug }}" method="post">
+                                                {% csrf_token %}
+												<fieldset>
+													<input type="hidden" name="cmd" value="_cart" />
+													<input type="hidden" name="add" value="1" />
+													<input type="hidden" name="business" value=" " />
+													<input type="hidden" name="item_name" value="Fortune Sunflower Oil" />
+													<input type="hidden" name="amount" value="7.99" />
+													<input type="hidden" name="discount_amount" value="1.00" />
+													<input type="hidden" name="currency_code" value="USD" />
+													<input type="hidden" name="return" value=" " />
+													<input type="hidden" name="cancel_return" value=" " />
+													<input type="submit"  value="Select Options" class="button" />
+												</fieldset>
+													
+											</form>
+										</div>
+									</div>
+								</figure>
+							</div>
+						</div>
+						</div>
+					</div>
+    {% endfor %}
+					<div class="clearfix"> </div>
+				</div>
+
+
+
+
+
+			</div>
+		</div>
+		<div class="clearfix"></div>
+	</div>
+<!-- //banner -->
+<!-- newsletter -->
+	<div class="newsletter">
+		<div class="container">
+			<div class="w3agile_newsletter_left">
+				<h3>sign up for our newsletter</h3>
+			</div>
+			<div class="w3agile_newsletter_right">
+				<form action="#" method="post">
+					<input type="email" name="Email" value="Email" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Email';}" required="">
+					<input type="submit" value="subscribe now">
+				</form>
+			</div>
+			<div class="clearfix"> </div>
+		</div>
+	</div>
+<!-- //newsletter -->
+ {% endblock %}
